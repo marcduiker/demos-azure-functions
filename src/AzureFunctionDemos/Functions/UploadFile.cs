@@ -12,7 +12,7 @@ namespace AzureFunctionDemos
         [FunctionName("UploadFile")]
         public static HttpResponseMessage Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "upload/{name}")]HttpRequestMessage req, 
-            [Blob("images/{name}", FileAccess.Read, Connection = "BlobConnectionString")]out Stream blobStream,
+            [Blob("images/{name}", FileAccess.ReadWrite, Connection = "BlobConnectionString")]out Stream blobStream,
             string name, 
             TraceWriter log)
         {
