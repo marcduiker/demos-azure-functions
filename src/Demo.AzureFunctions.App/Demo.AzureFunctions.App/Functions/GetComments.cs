@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Demo.AzureFunctions.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Demo.AzureFunctions.Models;
 
-namespace Demo.AzureFunctions.App
+namespace Demo.AzureFunctions.App.Functions
 {
     public static class GetComments
     {
@@ -20,22 +20,31 @@ namespace Demo.AzureFunctions.App
             ILogger log)
         {
             IActionResult result;
-            if (!string.IsNullOrEmpty(parentId))
+            if (Guid.TryParse(parentId, out Guid parsedParentId))
             {
-                var comments = await GetCommentsByParentId(parentId);
+                var comments = GetCommentsByParentId(parsedParentId);
                 result = new OkObjectResult(comments);
             }
             else
             {
-                result = new BadRequestObjectResult("Please provide a parentId in the route.");
+                result = new BadRequestObjectResult("Please provide a valid parentId in the route.");
             }
 
             return result;
         }
 
-        private static Task<IEnumerable<Comment>> GetCommentsByParentId(string parentId)
+        private static IEnumerable<Comment> GetCommentsByParentId(Guid parentId)
         {
-            throw new NotImplementedException();
+            return new List<Comment>
+            {
+                new Comment
+                {
+                    AuthorName = "Marc",
+                    Id = Guid.NewGuid(),
+                    ParentId = Guid.NewGuid(),
+                    Text = "Your blogpost changed my life!"
+                }
+            };
         }
     }
 }

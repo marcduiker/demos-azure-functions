@@ -1,0 +1,21 @@
+GET http://localhost:7071/api/GetComments/04A785B9-F4F6-4095-ABCA-30F5F2793BCC
+
+### Valid request with Comment
+
+POST http://localhost:7071/api/AddComment
+Content-Type: application/json
+
+{
+    "AuthorName" : "Margareth Hamilton",
+    "Text" : "I <3 this post!",
+    "ParentId" : "04A785B9-F4F6-4095-ABCA-30F5F2793BCC"
+}
+
+### Invalid request
+
+POST http://localhost:7071/api/AddComment
+Content-Type: application/json
+
+{
+    "SomeProperty" : "SomeValue"
+}
