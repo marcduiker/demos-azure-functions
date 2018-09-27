@@ -1,14 +1,15 @@
-GET http://localhost:7071/api/GetComments/04A785B9-F4F6-4095-ABCA-30F5F2793BCC
-
 ### Valid request with Comment
+
+#@guid = C923AF55-B9A1-489C-A44F-E026D75B6B95
+@guid = 04A785B9-F4F6-4095-ABCA-30F5F2793BCC
 
 POST http://localhost:7071/api/AddComment
 Content-Type: application/json
 
 {
     "AuthorName" : "Margareth Hamilton",
-    "Text" : "I <3 this post!",
-    "ParentId" : "04A785B9-F4F6-4095-ABCA-30F5F2793BCC"
+    "Text" : "I love sending stuff into space!",
+    "ParentId" : "{{guid}}"
 }
 
 ### Invalid request
@@ -19,3 +20,7 @@ Content-Type: application/json
 {
     "SomeProperty" : "SomeValue"
 }
+
+### Retrieve comments for a blogpost
+
+GET http://localhost:7071/api/GetComments/{{guid}}
