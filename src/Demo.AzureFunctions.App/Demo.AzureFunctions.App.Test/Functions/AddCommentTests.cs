@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace Demo.AzureFunctions.App.Test
+namespace Demo.AzureFunctions.App.Test.Functions
 {
     public class AddCommentTests
     {

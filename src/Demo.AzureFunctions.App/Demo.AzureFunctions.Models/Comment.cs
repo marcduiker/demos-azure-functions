@@ -1,13 +1,10 @@
 ﻿using System;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Demo.AzureFunctions.Models
 {
-    public class Comment
+    public class Comment : TableEntity
     {
-        public string PartitionKey { get; set; }
-
-        public string RowKey { get; set; }
-
         public Guid Id { get; set; }
 
         public Guid ParentId { get; set; }

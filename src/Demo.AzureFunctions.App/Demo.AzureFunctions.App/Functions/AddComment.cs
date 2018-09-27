@@ -18,7 +18,7 @@ namespace Demo.AzureFunctions.App.Functions
         [FunctionName(nameof(AddComment))]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]HttpRequest req,
-            [Table(TableStorage.TableName, TableStorage.CommentsPartitionKey, Connection = TableStorage.Connection)]ICollector<Comment> tableBinding,
+            [Table(TableStorage.TableName, Connection = TableStorage.Connection)]ICollector<Comment> tableBinding,
             ILogger log)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -47,7 +47,7 @@ namespace Demo.AzureFunctions.App.Functions
 
             result = new Comment
             {
-                PartitionKey = TableStorage.CommentsPartitionKey,
+                PartitionKey = comment.ParentId.ToString("D"),
                 RowKey = commentId.ToString("D"),
                 Id = commentId,
                 AuthorName = comment.AuthorName,

@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Demo.AzureFunctions.App.Configuration;
 using Demo.AzureFunctions.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Demo.AzureFunctions.App.Functions
 {
@@ -14,15 +16,15 @@ namespace Demo.AzureFunctions.App.Functions
     {
         [FunctionName(nameof(GetComments))]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "GetComments/{parentId}")]
-            HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "GetComments/{parentId}")]HttpRequest req,
             string parentId,
+            [Table(TableStorage.TableName)] CloudTable cloudTable,
             ILogger log)
         {
             IActionResult result;
             if (Guid.TryParse(parentId, out Guid parsedParentId))
             {
-                var comments = GetCommentsByParentId(parsedParentId);
+                var comments = await GetCommentsByParentId(cloudTable, parsedParentId);
                 result = new OkObjectResult(comments);
             }
             else
@@ -33,18 +35,21 @@ namespace Demo.AzureFunctions.App.Functions
             return result;
         }
 
-        private static IEnumerable<Comment> GetCommentsByParentId(Guid parentId)
+        private static async Task<IEnumerable<Comment>> GetCommentsByParentId(CloudTable cloudTable, Guid parentId)
         {
-            return new List<Comment>
+
+            var query = new TableQuery<Comment>().Where(
+                TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,
+                    parentId.ToString("D")));
+
+            var result = new List<Comment>();
+
+            foreach (var comment in await cloudTable.ExecuteQuerySegmentedAsync(query, null))
             {
-                new Comment
-                {
-                    AuthorName = "Marc",
-                    Id = Guid.NewGuid(),
-                    ParentId = Guid.NewGuid(),
-                    Text = "Your blogpost changed my life!"
-                }
-            };
+                result.Add(comment);
+            }
+
+            return result;
         }
     }
 }
