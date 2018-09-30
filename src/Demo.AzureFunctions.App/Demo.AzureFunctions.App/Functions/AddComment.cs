@@ -19,17 +19,17 @@ namespace Demo.AzureFunctions.App.Functions
         [StorageAccount(UserContent.Connection)]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Comment")]HttpRequest req,
-            [Table(UserContent.TableStorage.CommentsTable)]ICollector<Comment> tableBinding,
+            [Table(UserContent.TableStorage.CommentsTable)]ICollector<Comment> commentsTable,
             ILogger log)
         {
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var comment = CreateComment(requestBody, log);
             if (comment.GetType() == typeof(EmptyComment))
             {
                 return new BadRequestObjectResult(MessageFactory.CreateInvalidCommentMessage());
             }
 
-            tableBinding.Add(comment);
+            commentsTable.Add(comment);
 
             return new OkObjectResult(comment);
         }

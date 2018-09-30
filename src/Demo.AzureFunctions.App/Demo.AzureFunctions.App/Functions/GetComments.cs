@@ -19,13 +19,13 @@ namespace Demo.AzureFunctions.App.Functions
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Comments/{parentId}")]HttpRequest req,
             string parentId,
-            [Table(UserContent.TableStorage.CommentsTable)] CloudTable cloudTable,
+            [Table(UserContent.TableStorage.CommentsTable)] CloudTable commentsTable,
             ILogger log)
         {
             IActionResult result;
             if (Guid.TryParse(parentId, out Guid parsedParentId))
             {
-                var comments = await GetCommentsByParentId(cloudTable, parsedParentId);
+                var comments = await GetCommentsByParentId(commentsTable, parsedParentId);
                 result = new OkObjectResult(comments);
             }
             else
