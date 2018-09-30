@@ -19,7 +19,7 @@ namespace Demo.AzureFunctions.App.Functions
 
         [FunctionName(nameof(ModerateComment))]
         [StorageAccount(UserContent.Connection)]
-        public static async void Run(
+        public static async Task Run(
             [QueueTrigger(UserContent.QueueStorage.CommentModerationQueue)]string queueItem,
             [Queue(UserContent.QueueStorage.ModeratedCommentsQueue)]ICollector<Comment> moderatedQueue,
             ILogger log)
