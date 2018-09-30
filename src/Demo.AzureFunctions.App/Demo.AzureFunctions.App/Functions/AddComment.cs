@@ -16,9 +16,10 @@ namespace Demo.AzureFunctions.App.Functions
     public static class AddComment
     {
         [FunctionName(nameof(AddComment))]
+        [StorageAccount(UserContent.Connection)]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]HttpRequest req,
-            [Table(TableStorage.TableName, Connection = TableStorage.Connection)]ICollector<Comment> tableBinding,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Comment")]HttpRequest req,
+            [Table(UserContent.TableStorage.CommentsTable)]ICollector<Comment> tableBinding,
             ILogger log)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();

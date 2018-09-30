@@ -1,0 +1,25 @@
+### Variables
+@baseUrl = http://localhost:7071/api
+@parentId = C923AF55-B9A1-489C-A44F-E026D75B6B95
+#@parentId = 04A785B9-F4F6-4095-ABCA-30F5F2793BCC
+
+### Post Valid request with Comment
+POST {{baseUrl}}/Comment
+Content-Type: application/json
+
+{
+    "AuthorName" : "Margareth Hamilton",
+    "Text" : "I love sending stuff into space!",
+    "ParentId" : "{{parentId}}"
+}
+
+### Post Invalid request
+POST {{baseUrl}}/Comment
+Content-Type: application/json
+
+{
+    "SomeProperty" : "SomeValue"
+}
+
+### Retrieve comments for a blogpost
+GET {{baseUrl}}/Comments/{{parentId}}

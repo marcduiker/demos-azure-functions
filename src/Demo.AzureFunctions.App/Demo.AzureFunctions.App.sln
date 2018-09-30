@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.AzureFunctions.App", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.AzureFunctions.Models", "Demo.AzureFunctions.Models\Demo.AzureFunctions.Models.csproj", "{61F1AF1A-99EF-4D3A-B8F9-807078D0E84B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.AzureFunctions.App.Test", "Demo.AzureFunctions.App.Test\Demo.AzureFunctions.App.Test.csproj", "{3E946E53-798E-4131-A02B-817CC64AB522}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.AzureFunctions.App.Test", "Demo.AzureFunctions.App.Test\Demo.AzureFunctions.App.Test.csproj", "{3E946E53-798E-4131-A02B-817CC64AB522}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

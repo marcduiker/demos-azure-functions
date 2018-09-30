@@ -15,10 +15,11 @@ namespace Demo.AzureFunctions.App.Functions
     public static class GetComments
     {
         [FunctionName(nameof(GetComments))]
+        [StorageAccount(UserContent.Connection)]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "GetComments/{parentId}")]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Comments/{parentId}")]HttpRequest req,
             string parentId,
-            [Table(TableStorage.TableName)] CloudTable cloudTable,
+            [Table(UserContent.TableStorage.CommentsTable)] CloudTable cloudTable,
             ILogger log)
         {
             IActionResult result;
